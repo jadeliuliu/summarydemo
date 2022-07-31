@@ -36,4 +36,38 @@ public class ListTest {
         System.out.println(list.subList(1, list.size()));
         List<Long> list1 = Lists.newArrayListWithExpectedSize(3);
     }
+
+    @Test
+    public void test3() {
+        List<Integer> list = new ArrayList<Integer>(){
+            {
+                add(1);
+                add(2);
+                add(3);
+            }
+        };
+        Iterator<Integer> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            iterator.next();
+            list.add(4);
+        }
+    }
+
+    @Test
+    public void test4() throws InterruptedException {
+        List<String> list = new ArrayList<>();
+        for (int i = 1; i <= 30; i++){
+            new Thread(() -> {
+                list.add(UUID.randomUUID().toString().substring(0, 8));
+                System.out.println(list);
+            }).start();
+        };
+        Thread.sleep(60 * 1000);
+    }
+
+    @Test
+    public void test5() {
+        List<Integer> list = Collections.synchronizedList(new ArrayList<>());
+
+    }
 }

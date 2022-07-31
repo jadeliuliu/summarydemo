@@ -70,4 +70,11 @@ public class StringTest {
         Integer s2 = 3;
         if(s2 == null) System.out.println("对"); //对的
     }
+
+    @Test
+    public void test5() {
+        System.out.println(StringUtils.equalsIgnoreCase("abc", "aBC"));
+        Double d = null;
+        System.out.println(d);
+    }
 }
