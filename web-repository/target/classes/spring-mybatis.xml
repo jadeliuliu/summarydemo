@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--开启组件扫描,扫描多个包用,隔开-->
+    <context:component-scan base-package="org.example"></context:component-scan>
+
+    <!-- 开启Aspect生成代理对象 -->
+<!--    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>-->
+
+    <!--加载properties文件-->
+    <context:property-placeholder ignore-unresolvable='true' location='classpath:dbconfig.properties'/>
+
+    <!-- 1.配置阿里druid连接池 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <!-- 配置数据库基本信息 -->
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+        <property name="driverClassName" value="${db.driverClassName}"/>
+        <property name="maxActive" value="${db.maxActive}"/>
+        <property name="initialSize" value="${db.initialSize}"/>
+    </bean>
+
+    <!-- 2.配置spring的数据源，声明事务 -->
+    <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 3.配置 mybatis，扫描mapper.xml文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 3.1 配置 mybatis config -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- 3.2 配置扫描mybatis映射文件路径 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+
+    <!-- 4.类似于 jdbcTemplate 帮助类 -->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"></constructor-arg>
+    </bean>
+
+    <!-- 自动扫描了所有的*Mapper.xml对应的mapper接口文件，这样就不用一个一个手动配置Mapper的映射了，只要Mapper接口类和Mapper映射文件对应起来就可以了。 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="org.example.mysql" />
+    </bean>
+
+</beans>

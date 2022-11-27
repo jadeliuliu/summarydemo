@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+        <!-- namespace是mybatis加载配置文件时要找的路径（包+文件名的形式）。
+  id是一会儿调用sql语句时要用的名字，自定义的.
+  parameterType是要传入的参数,下面语句是从对象中取值 -->
+
+<mapper namespace="org.example.mysql.StudentDao">
+
+    <select id="selectById" resultType="org.example.mysql.domain.StudentDO">
+        select * from student
+        where id = #{id}
+        limit 1
+    </select>
+
+</mapper>
