@@ -42,4 +42,10 @@ public class BaseTest {
         int a;
         boolean b;
     }
+
+    @Test
+    public void test2() {
+        int corePoolSize = Runtime.getRuntime().availableProcessors();
+        System.out.println(corePoolSize);
+    }
 }

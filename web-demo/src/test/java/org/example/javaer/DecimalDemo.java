@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Scanner;
 
 /**
  * @author: liuxuan
@@ -57,5 +58,50 @@ public class DecimalDemo {
         BigDecimal g = new BigDecimal(10.100001);
         System.out.println(f.compareTo(g) == 0); //false
         // 这是因为本身Double传参的构造就不准，看上面
+    }
+
+    @Test
+    public void test2() {
+        //1.使用BigDecimal
+        BigDecimal bdL = new BigDecimal("1.22");
+        BigDecimal bdR = new BigDecimal("1.22");
+        if (bdL.compareTo(bdR) < 0)
+            System.out.println("num1 < num2");
+        else if (bdL.compareTo(bdR) == 0)
+            System.out.println("num1 == num2");
+        else
+            System.out.println("num1 > num2");
+
+        Double dL = 1.33;
+        Double dR = 1.33;
+        if (dL.compareTo(dR) < 0)
+            System.out.println("num1 < num2");
+        else if (dL.compareTo(dR) == 0)
+            System.out.println("num1 == num2");
+        else
+            System.out.println("num1 > num2");
+
+        Double num1 = 1.222;
+        Double num2 = 1.222;
+        if (num1 - num2 > 0.000001)
+            System.out.println("num1 > num2");
+        else if (num1 - num2 < -0.0000001)
+            System.out.println("num1 < num2");
+        else
+            System.out.println("num1 == num2");
+
+        // 使用使用sun提供的Double.doubleToLongBits()方法
+        long lL = Double.doubleToRawLongBits(num1);
+        long lR = Double.doubleToRawLongBits(num2);
+        System.out.println(lL + ":" + lR);
+        if (lL < lR)
+            System.out.println("num1 < num2");
+        else if (lL == lR)
+            System.out.println("num1 == num2");
+        else
+            System.out.println("num1 > num2");
+
+
+
     }
 }

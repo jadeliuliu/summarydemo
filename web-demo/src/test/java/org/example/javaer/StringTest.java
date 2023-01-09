@@ -83,4 +83,35 @@ public class StringTest {
         String str = "111";
         System.out.println(str.getClass()+"@"+str.hashCode());
     }
+
+    @Test
+    public void test7() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('a').append('b').append('c');
+        sb.deleteCharAt(sb.length()-1);
+        System.out.println(sb); //ab
+
+        sb.delete(sb.length()-1, sb.length());
+        System.out.println(sb); //ab
+    }
+
+    @Test
+    public void test8() {
+        String s = "1";
+        Integer i = Integer.valueOf(s);
+        System.out.println(i);
+
+        Long l = new Long(1L);
+        String s1 = String.valueOf(l);
+        System.out.println(s1);
+        String s2 = l.toString();
+        System.out.println(s2);
+
+        l = null;
+        String s3 = String.valueOf(l);
+        System.out.println(s3);  //null
+        String s4 = l.toString(); //NullPointerException
+        System.out.println(s4);
+
+    }
 }

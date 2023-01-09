@@ -106,6 +106,18 @@
       <artifactId>fastjson</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>io.oss84.geotools</groupId>
+      <artifactId>gt-main</artifactId>
+      <version>24.2-oss84-1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.oss84.geotools</groupId>
+      <artifactId>gt-metadata</artifactId>
+      <version>24.2-oss84-1</version>
+    </dependency>
+
   </dependencies>
 
   <build>

@@ -1,12 +1,16 @@
 package org.example.javaer;
 
 import com.google.common.collect.Lists;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.junit.Test;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * @author: liuxuan
@@ -98,4 +102,83 @@ public class ListTest {
         list.add(1, 2L);
         System.out.println(list);  //[null, 2, 1, 3]
     }
+
+    @Test
+    public void test8() {
+        List<Integer>  list = new ArrayList<>();
+        for (int i = 1; i < 11; i++) {
+            list.add(i);
+        }
+        Integer[] ans2 = list.toArray(new Integer[0]);
+        System.out.println(Arrays.toString(ans2));
+
+        double sum = list.stream().mapToDouble(Integer::doubleValue).sum();
+        System.out.println(sum);
+    }
+
+    @Test
+    public void test9() {
+        List<String> list1 = Lists.newArrayList();
+        String s1 = new String("111");
+        String s2 = new String("222");
+        list1.add(s1);
+        list1.add(s2);
+        List<String> list2 = Lists.newArrayList();
+        list2.addAll(list1);
+        list1 = null;
+        System.out.println(list2);
+        s1 = "333";
+        System.out.println(s1);
+        System.out.println(list2);
+    }
+
+    @Test
+    public void test10() {
+        A a = new A("lll");
+        List<A> list1 = Lists.newArrayList(a);
+        List<A> list2 = Lists.newArrayList();
+        list2.addAll(list1);
+        System.out.println(list2); //[A(name=lll)]
+        a.setName("www");
+        System.out.println(list1); //[A(name=www)]
+        System.out.println(list2); //[A(name=www)]
+
+        for (A u : list2) {
+            u.setName("bbb");
+            System.out.println(u.hashCode()); //1642360923
+            A u1 = new A("aaa");
+            u = u1;
+            u.setName("aaa");
+            System.out.println(u.hashCode()); //1343441044
+        }
+        System.out.println(list2); //[A(name=bbb)]
+        System.out.println(list2.get(0).hashCode()); //1642360923
+
+    }
+
+    @Test
+    public void test11() {
+        List<Long> li = Lists.newArrayList(1L, 2L);
+        li = li.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        System.out.println(li);
+
+        A a1 = new A("lll");
+        A a2 = new A("hhh");
+        List<A> list = Lists.newArrayList(a1, a2);
+        Collections.reverse(list);
+        System.out.println(list);
+
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    static
+    class A {
+        A(String name) {
+            this.name = name;
+        }
+        private String name;
+    }
+
 }

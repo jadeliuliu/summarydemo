@@ -1,10 +1,12 @@
 package org.example.geometry;
 
 import com.vividsolutions.jts.geom.*;
+import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
+import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.junit.Test;
 
-import java.text.ParseException;
+import java.util.Arrays;
 
 /**
  * @author: liuxuan
@@ -76,6 +78,22 @@ public class GeoDemo2 {
         geometry2 = (LineString) reader.read(wkt2);
         boolean b4 = geometry1.crosses(geometry2);//true
         System.out.println(b4);
+    }
+
+    @Test
+    public void testNearest() throws ParseException {
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Coordinate coordinate = new Coordinate(0, 1);
+        WKTReader reader = new WKTReader(geometryFactory);
+        String wkt = "LINESTRING(1 0, 2 0)";
+        LineString road = (LineString) reader.read(wkt);
+        Coordinate[] shadow = com.vividsolutions.jts.operation.distance.DistanceOp.nearestPoints(road,
+                geometryFactory.createPoint(coordinate));
+        System.out.println(Arrays.toString(shadow)); //[(1.0, 0.0, NaN), (1.0, 1.0, NaN)]
+
+        Coordinate[] coor = road.getCoordinates();
+        System.out.println(Arrays.toString(coor));
+
     }
 
 }

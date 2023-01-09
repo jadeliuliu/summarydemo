@@ -1,5 +1,6 @@
 package org.example.javaer;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sun.codemodel.internal.JCatchBlock;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -22,5 +23,12 @@ public class JsonTest {
         } catch(Exception e) {
             System.out.println("error:"+e);
         }
+    }
+
+    @Test
+    public void test2() {
+        JSONObject json = new JSONObject();
+        json.put("key","11");
+        System.out.println(json.getInteger("key"));
     }
 }
